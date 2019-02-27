@@ -17,6 +17,8 @@ import java.util.concurrent.atomic.AtomicLong;
 import javax.validation.Valid;
 
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -34,14 +36,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.koweg.poc.payments.rest.exception.PaymentNotFoundException;
 import com.koweg.poc.payments.rest.representation.Payment;
+import com.koweg.poc.payments.service.PaymentService;
 
 /**
  * @author olarinde.ajai@gmail.com
  *
  */
 @Controller
-@RequestMapping("/payment")
+@RequestMapping("/payments")
 public class PaymentAccountResourceImpl {
+  private static final Logger LOGGER = LoggerFactory.getLogger(PaymentAccountResourceImpl.class);
+  
+  private PaymentService paymentService;
   private static Map<Long, Payment> paymentList;
   private static AtomicLong paymentId = new AtomicLong(0);
 
@@ -81,10 +87,8 @@ public class PaymentAccountResourceImpl {
       MediaType.APPLICATION_JSON_VALUE })
   @ResponseBody
   public ResponseEntity<Void> makePayment(@Valid @RequestBody Payment payment) {
-    long id = paymentId.incrementAndGet();
-    payment.setId(id);
-    payment.setDate(DateTime.now().toDate());
-    paymentList.put(id, payment);
+    final long id = paymentId.incrementAndGet();
+    paymentList.put(id, new Payment(id, payment.getAmount(), payment.getDate(), payment.getCurr()));
     HttpHeaders headers = new HttpHeaders();
     headers.setLocation(linkTo(PaymentAccountResourceImpl.class).slash(id).toUri());
     return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
