@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.koweg.poc</groupId>
   <artifactId>koweg-poc-audit</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>koweg-poc-audit</name>
 
+<!--   <parent> -->
+<!--     <groupId>com.koweg.poc</groupId> -->
+<!--     <artifactId>koweg-poc-parent</artifactId> -->
+<!--     <version>1.0.0-SNAPSHOT</version> -->
+<!--     <relativePath>../koweg-poc-parent/pom.xml</relativePath> -->
+<!--   </parent> -->
   <parent>
-    <artifactId>koweg-poc-audit-parent</artifactId>
     <groupId>com.koweg.poc</groupId>
+    <artifactId>koweg-poc-audit-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <relativePath>koweg-poc-audit-parent/pom.xml</relativePath>
   </parent>
 
 
   <modules>
-    <module>koweg-poc-audit-parent</module>
+<!--     <module>koweg-poc-audit-parent</module> -->
     <module>koweg-poc-audit-api</module>
     <module>koweg-poc-audit-service</module>
   </modules>

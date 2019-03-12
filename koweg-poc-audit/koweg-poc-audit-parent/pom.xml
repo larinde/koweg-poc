@@ -1,51 +1,27 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.koweg.poc</groupId>
   <artifactId>koweg-poc-audit-parent</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>koweg-poc-audit-parent</name>
 
   <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>1.5.16.RELEASE</version>
-    <relativePath /> <!-- lookup parent from repository -->
+    <groupId>com.koweg.poc</groupId>
+    <artifactId>koweg-poc-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../koweg-poc-parent/pom.xml</relativePath>
   </parent>
 
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
-    <hamcrest.version>1.3</hamcrest.version>
-
-    <!-- SONAR/JACOCO INTEGRATION -->
-    <!-- ============================================== -->
-    <!-- http://docs.codehaus.org/display/SONAR/Code+Coverage+by+Unit+Tests+for+Java+Project#CodeCoveragebyUnitTestsforJavaProject-ReusingExistingReports -->
-    <!-- https://github.com/SonarSource/sonar-examples/blob/master/projects/code-coverage/ut/maven/ut-maven-jacoco-reuseReports/pom.xml -->
-
-    <sonar.language>java</sonar.language>
-
-    <!-- Tells SonarQube to reuse existing reports -->
-    <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-
-    <!-- Tells SonarQube that the code coverage tool by unit tests is JaCoCo -->
-    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-
-    <!-- Tells SonarQube where the unit tests code coverage report is -->
-    <sonar.jacoco.reportPath>${project.build.directory}/coverage-reports/jacoco-ut.exec</sonar.jacoco.reportPath>
 
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-aop</artifactId>
-    </dependency>
-
-
-
+<!--     <dependency> -->
+<!--       <groupId>org.springframework.boot</groupId> -->
+<!--       <artifactId>spring-boot-starter-aop</artifactId> -->
+<!--     </dependency> -->
   
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -54,14 +30,8 @@
     </dependency>
 
     <dependency>
-      <groupId>joda-time</groupId>
-      <artifactId>joda-time</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.8.1</version>
     </dependency>
 
 
