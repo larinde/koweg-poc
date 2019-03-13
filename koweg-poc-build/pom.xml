@@ -12,6 +12,7 @@
     <module>../koweg-poc-card-processor</module>
     <module>../koweg-poc-parent</module>
     <module>../koweg-poc-payments</module>
+    <module>../koweg-poc-payment-gw</module>
   </modules>
 
 </project>
