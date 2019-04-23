@@ -39,6 +39,10 @@ public class AuditVerticle extends AbstractVerticle {
     }
 
     private void handleGetAudits(RoutingContext context) {
+        System.out.println("Receiving ----> " + context.request().connection().indicatedServerName());
+        context.request().headers().forEach(v -> {
+            System.out.println("\n inbound --> " + v.getKey() + " = " + v.getValue());
+        });
         context.response()
             .setStatusCode(200)
             .putHeader("Contet-Type", "application/json")

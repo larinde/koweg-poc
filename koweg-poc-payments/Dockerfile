@@ -1,6 +1,9 @@
 FROM java:latest
 MAINTAINER olarinde.ajai@gmail.com
-EXPOSE 8080
-ADD /koweg-poc-payments-service/target/payment-service.jar payment-service.jar
-ENTRYPOINT ["java", "-jar", "payment-service.jar"]
+VOLUME /tmp
+#ARG JAR_FILE
+#COPY ${JAR_FILE} payment-service.jar
+COPY /koweg-poc-payments-service/target/payment-service.jar payment-service.jar
 ENV JAVA_OPTS Xmx2048 Xms1024
+ENTRYPOINT ["java", "-jar", "payment-service.jar"]
+
