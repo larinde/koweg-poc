@@ -15,23 +15,10 @@
   <properties>
     <java.version>1.8</java.version>
     <app.name>payment-service</app.name>
-    <!-- <spring-cloud.version>Greenwich.RC2</spring-cloud.version> -->
-    <vertx.version>3.5.1</vertx.version>
+    <vertx.version>3.7.0</vertx.version>
   </properties>
 
   <dependencies>
-
-
-    <!-- <dependency> -->
-    <!-- <groupId>org.springframework.cloud</groupId> -->
-    <!-- <artifactId>spring-cloud-spring-service-connector</artifactId> -->
-    <!-- </dependency> -->
-    <!-- <dependency> -->
-    <!-- <groupId>org.springframework.cloud</groupId> -->
-    <!-- <artifactId>spring-cloud-cloudfoundry-connector</artifactId> -->
-    <!-- </dependency> -->
-
-
     <!-- VERTX DEPENDENCIES -->
     <dependency>
       <groupId>io.vertx</groupId>
@@ -90,18 +77,6 @@
       <artifactId>spring-boot-starter-hateoas</artifactId>
     </dependency>
   </dependencies>
-
-  <!-- <dependencyManagement> -->
-  <!-- <dependencies> -->
-  <!-- <dependency> -->
-  <!-- <groupId>org.springframework.cloud</groupId> -->
-  <!-- <artifactId>spring-cloud-dependencies</artifactId> -->
-  <!-- <version>${spring-cloud.version}</version> -->
-  <!-- <type>pom</type> -->
-  <!-- <scope>import</scope> -->
-  <!-- </dependency> -->
-  <!-- </dependencies> -->
-  <!-- </dependencyManagement> -->
 
   <build>
     <finalName>${app.name}</finalName>

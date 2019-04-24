@@ -5,12 +5,6 @@
   <packaging>pom</packaging>
   <name>koweg-poc-audit</name>
 
-<!--   <parent> -->
-<!--     <groupId>com.koweg.poc</groupId> -->
-<!--     <artifactId>koweg-poc-parent</artifactId> -->
-<!--     <version>1.0.0-SNAPSHOT</version> -->
-<!--     <relativePath>../koweg-poc-parent/pom.xml</relativePath> -->
-<!--   </parent> -->
   <parent>
     <groupId>com.koweg.poc</groupId>
     <artifactId>koweg-poc-audit-parent</artifactId>
@@ -18,9 +12,16 @@
     <relativePath>koweg-poc-audit-parent/pom.xml</relativePath>
   </parent>
 
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
   <modules>
-<!--     <module>koweg-poc-audit-parent</module> -->
     <module>koweg-poc-audit-api</module>
     <module>koweg-poc-audit-service</module>
   </modules>

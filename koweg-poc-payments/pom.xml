@@ -12,6 +12,14 @@
     <relativePath>../koweg-poc-parent/pom.xml</relativePath>
   </parent>
 
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
   <modules>
     <module>koweg-poc-payments-api</module>
