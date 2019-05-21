@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>com.koweg.poc</groupId>
-    <artifactId>koweg-poc-parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <relativePath>../koweg-poc-parent/pom.xml</relativePath>
-  </parent>
+	<parent>
+		<groupId>com.koweg.poc</groupId>
+		<artifactId>koweg-poc-parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../koweg-poc-parent/pom.xml</relativePath>
+	</parent>
 
 
 	<artifactId>koweg-poc-registry</artifactId>
@@ -22,16 +22,22 @@
 	</properties>
 
 	<dependencies>
-<!--
+		<!--
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-data-mongodb</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
+                </dependency>
+        -->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
-		</dependency>
--->
+
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
@@ -62,8 +68,25 @@
 	</dependencyManagement>
 
 	<build>
-    <finalName>${project.artifactId}</finalName>
+		<finalName>${project.artifactId}</finalName>
 		<plugins>
+			<plugin>
+				<groupId>pl.project13.maven</groupId>
+				<artifactId>git-commit-id-plugin</artifactId>
+				<version>2.2.6</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>revision</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<generateGitPropertiesFile>true</generateGitPropertiesFile>
+					<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+				</configuration>
+			</plugin>
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
