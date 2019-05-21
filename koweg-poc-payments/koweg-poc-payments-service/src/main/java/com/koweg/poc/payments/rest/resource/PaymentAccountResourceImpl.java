@@ -19,6 +19,7 @@ import javax.validation.Valid;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -46,7 +47,7 @@ import com.koweg.poc.payments.service.PaymentService;
 @RequestMapping("/payments")
 public class PaymentAccountResourceImpl {
   private static final Logger LOGGER = LoggerFactory.getLogger(PaymentAccountResourceImpl.class);
-  
+  @Autowired
   private PaymentService paymentService;
   private static Map<Long, Payment> paymentList;
   private static AtomicLong paymentId = new AtomicLong(0);
@@ -73,7 +74,8 @@ public class PaymentAccountResourceImpl {
   @RequestMapping(value = "/history", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE })
   @ResponseBody
   public List<Payment> getPayments() {
-    return Collections.list(Collections.enumeration(paymentList.values()));
+    //return Collections.list(Collections.enumeration(paymentList.values()));
+    return paymentService.getPayments();
   }
 
   @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE,

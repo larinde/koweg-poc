@@ -12,6 +12,12 @@
     <relativePath>../koweg-poc-parent/pom.xml</relativePath>
   </parent>
 
+  <properties>
+    <java.version>1.8</java.version>
+    <vertx.version>3.7.0</vertx.version>
+    <spring-cloud.version>Greenwich.SR1</spring-cloud.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -20,6 +26,45 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <!--
+      <plugin>
+        <groupId>com.spotify</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>1.2.0</version>
+        <configuration>
+          <imageName>${project.build.finalName}</imageName>
+          <dockerDirectory>docker</dockerDirectory>
+          <resources>
+            <resource>
+              <targetPath>/</targetPath>
+              <directory>${project.build.directory}</directory>
+              <include>${project.build.finalName}.jar</include>
+            </resource>
+          </resources>
+        </configuration>
+      </plugin>
+      -->
+      <plugin>
+        <groupId>pl.project13.maven</groupId>
+        <artifactId>git-commit-id-plugin</artifactId>
+        <version>2.2.6</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>revision</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <generateGitPropertiesFile>true</generateGitPropertiesFile>
+          <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+        </configuration>
+     </plugin>
+    </plugins>
+  </build>
 
   <modules>
     <module>koweg-poc-payments-api</module>

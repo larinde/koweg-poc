@@ -3,11 +3,21 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.koweg.poc</groupId>
   <artifactId>koweg-poc-securities</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>koweg-poc-securities</name>
+
+
+  <parent>
+    <groupId>com.koweg.poc</groupId>
+    <artifactId>koweg-poc-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../koweg-poc-parent/pom.xml</relativePath>
+  </parent>
+
+
   <modules>
-    <module>koweg-poc-securities-api</module>
+    <!-- <module>koweg-poc-securities-api</module> -->
+    <module>koweg-poc-securities-service</module>
   </modules>
 
   <properties>
@@ -20,9 +30,12 @@
     <jodatime-version>2.7</jodatime-version>
     <maven-plugin-version>1.0.0</maven-plugin-version>
     <junit-version>4.12</junit-version>
+    <scala.major-version>2.12</scala.major-version>
+    <scala.version>${scala.major-version}.6</scala.version>
   </properties>
 
   <dependencies>
+ 
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -31,5 +44,6 @@
     </dependency>
   </dependencies>
 
+ 
 
 </project>

@@ -1,5 +1,8 @@
 package com.koweg.poc.securities
 
-class DataRepo {
+object DataRepo {
+  def main(args: Array[String]) {
+    println("testing, testing....")
+  }
 
 }

@@ -9,7 +9,9 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
+@Data
 public class Payment extends AbstractTransfer {
   private Long id;
   private BigDecimal amount;
@@ -25,36 +27,6 @@ public class Payment extends AbstractTransfer {
     this.curr = curr;
   }
 
-  public Long getId() {
-    return id;
-  }
 
-  public BigDecimal getAmount() {
-    return amount;
-  }
-
-  public Date getDate() {
-    return date;
-  }
-
-  public String getCurr() {
-    return curr;
-  }
-
-  // public void setId(Long id) {
-  // this.id = id;
-  // }
-  //
-  // public void setAmount(BigDecimal amount) {
-  // this.amount = amount;
-  // }
-  //
-  // public void setDate(Date date) {
-  // this.date = date;
-  // }
-  //
-  // public void setCurr(String curr) {
-  // this.curr = curr;
-  // }
 
 }

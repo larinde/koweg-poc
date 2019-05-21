@@ -1,4 +1,4 @@
-curl -X GET -H "Accept: application/json" http://localhost:3000/payments/history -v
+curl -X GET -H "Accept: application/json" http://localhost:9100/payments/history -v
 
 curl -X GET -H "Accept: application/json" http://localhost:3000/payments/3 -v
 
