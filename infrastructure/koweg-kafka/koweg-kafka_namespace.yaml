@@ -1,0 +1,6 @@
+#Create a namespace
+#kubectl create -f koweg-kafka_namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+ name: koweg-kafka
