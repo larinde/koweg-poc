@@ -1,127 +1,134 @@
----
 apiVersion: v1
 kind: Service
 metadata:
- name: zookeeper-svc
- namespace: koweg-kafka
- labels:
- app: zookeeper-svc
+  name: zookeeper-svc
+  namespace: koweg-kafka
+  labels:
+    app: zookeeper-svc
 spec:
- ports:
- - port: 2888
- name: server
- - port: 3888
- name: leader-election
- clusterIP: None
- selector:
- app: zk
+  ports:
+  - port: 2888
+    name: server
+  - port: 3888
+    name: leader-election
+  clusterIP: None
+  selector:
+    app: zk
+
 ---
+
+apiVersion: v1
 kind: PersistentVolume
-apiVersion: v1
 metadata:
- name: zoo-pv
- namespace: koweg-kafka
- labels:
- type: local
+  name: zoo-pv
+  namespace: koweg-kafka
+  labels:
+    type: local
 spec:
- storageClassName: manual
- capacity:
- storage: 100Mi
- accessModes:
- - ReadWriteOnce
- hostPath:
- path: "/mnt/zoo_data"
+  storageClassName: manual
+  capacity:
+    storage: 100Mi
+  accessModes:
+  - ReadWriteOnce
+  hostPath:
+    path: "/mnt/zoo_data"
+
 ---
+
+apiVersion: v1
 kind: PersistentVolumeClaim
-apiVersion: v1
 metadata:
- name: zoo-pv-claim
- namespace: koweg-kafka
+  name: zoo-pv-claim
+  namespace: koweg-kafka
 spec:
- storageClassName: manual
- accessModes:
- - ReadWriteOnce
- resources:
- requests:
- storage: 100Mi
+  storageClassName: manual
+  accessModes:
+   - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+
 ---
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
- name: zk-cm
- namespace: koweg-kafka
+  name: zk-cm
+  namespace: koweg-kafka
 data:
- tick: "2000"
- servers: "zk-0.zookeeper-svc.koweg-kafka.svc.cluster.local:2888:3888"
+  tick: "2000"
+  servers: "zk-0.zookeeper-svc.koweg-kafka.svc.cluster.local:2888:3888"
+
 ---
-apiVersion: apps/v1beta1
+
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
- name: zk
- namespace: koweg-kafka
+  name: zk
+  namespace: koweg-kafka
 spec:
- serviceName: zookeeper-svc
- replicas: 1
- template:
- metadata:
- labels:
- app: zk
- spec:
- affinity:
- podAntiAffinity:
- requiredDuringSchedulingIgnoredDuringExecution:
- - labelSelector:
- matchExpressions:
- - key: "app"
- operator: In
- values:
- - zk
- topologyKey: "kubernetes.io/hostname"
- volumes:
- - name: zoo-pv-storage
- persistentVolumeClaim:
- claimName: zoo-pv-claim
- containers:
- - name: k8szk
- imagePullPolicy: Always
- image: confluentinc/cp-zookeeper:latest
- command:
- - "bash"
- - "-c"
- - "ZOOKEEPER_SERVER_ID=$((${HOSTNAME:3}+1)) && /etc/confluent/docker/run"
- resources:
- requests:
- memory: "2Gi"
- cpu: "500m"
- ports:
- - containerPort: 2181
- name: client
- - containerPort: 2888
- name: server
- - containerPort: 3888
- name: leader-election
- env:
- - name : ZOOKEEPER_TICK_TIME
- valueFrom:
- configMapKeyRef:
- name: zk-cm
- key: tick
- - name : ZOOKEEPER_SYNC_LIMIT
- valueFrom:
- configMapKeyRef:
- name: zk-cm
- key: tick
- - name : ZOOKEEPER_SERVERS
- valueFrom:
- configMapKeyRef:
- name: zk-cm
- key: servers
- - name: ZOOKEEPER_CLIENT_PORT
- value: "2182"
- - name: ZOOKEEPER_SERVER_ID
- valueFrom:
- fieldRef:
- fieldPath: metadata.name
- volumeMounts:
- - name: zoo-pv-storage
- mountPath: /var/lib/zookeeper
+  serviceName: "zookeeper-svc"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: zk
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: "app"
+                operator: In
+                values:
+                - zk
+            topologyKey: "kubernetes.io/hostname"
+      volumes:
+        - name: zoo-pv-storage
+          persistentVolumeClaim:
+            claimName: zoo-pv-claim
+      containers:
+      - name: k8szk
+        imagePullPolicy: Always
+        image: confluentinc/cp-zookeeper:latest
+        command:
+        - "bash"
+        - "-c"
+        - "ZOOKEEPER_SERVER_ID=$((${HOSTNAME:3}+1)) && /etc/confluent/docker/run"
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "500m"
+        ports:
+        - containerPort: 2181
+          name: client
+        - containerPort: 2888
+          name: server
+        - containerPort: 3888
+          name: leader-election
+        env:
+         - name : ZOOKEEPER_TICK_TIME
+           valueFrom:
+            configMapKeyRef:
+             name: zk-cm
+             key: tick
+         - name : ZOOKEEPER_SYNC_LIMIT
+           valueFrom:
+            configMapKeyRef:
+             name: zk-cm
+             key: tick
+         - name : ZOOKEEPER_SERVERS
+           valueFrom:
+            configMapKeyRef:
+             name: zk-cm
+             key: servers
+         - name: ZOOKEEPER_CLIENT_PORT
+           value: "2182"
+         - name: ZOOKEEPER_SERVER_ID
+           valueFrom:
+            fieldRef:
+             fieldPath: metadata.name
+        volumeMounts:
+         - mountPath: "/var/lib/zookeeper"
+           name: zoo-pv-storage
