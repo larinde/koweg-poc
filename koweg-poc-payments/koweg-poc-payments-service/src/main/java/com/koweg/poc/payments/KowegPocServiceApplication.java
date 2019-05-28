@@ -22,6 +22,9 @@ import io.vertx.core.Vertx;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.client.RestTemplate;
+import org.apache.kafka.clients.admin.NewTopic;
+
+import com.koweg.poc.payments.messaging.AuditDataPublisher;
 
 @SpringBootApplication
 @EnableEurekaClient
@@ -46,7 +49,7 @@ public class KowegPocServiceApplication {
 
   @Bean
   public PaymentService paymentService(){
-    return  new PaymentServiceImpl(restCallTemplate(), environment.getProperty("audit.service.name").toString());
+    return  new PaymentServiceImpl(auditDataPublisher(), restCallTemplate(), environment.getProperty("audit.service.name").toString());
   }
 
   @Bean
@@ -55,27 +58,39 @@ public class KowegPocServiceApplication {
     return new RestTemplate();
   }
 
+   // @Autowired
+  //  private PaymentVerticle paymentVerticle;
+
+  //  @Bean
+  //  @Autowired
+  //  public PaymentVerticle paymentVerticle(VerticleConfig config) {
+  //    return new PaymentVerticle(config);
+  //  }
+
+  //  @PostConstruct
+  //  private void deployVerticle() {
+   //   Vertx.vertx().deployVerticle(paymentVerticle);
+  //  }
+
   @Autowired
-  private PaymentVerticle paymentVerticle;
-
-  @Bean
-  @Autowired
-  public PaymentVerticle paymentVerticle(VerticleConfig config) {
-    return new PaymentVerticle(config);
-  }
-
-  @PostConstruct
-  private void deployVerticle() {
-    Vertx.vertx().deployVerticle(paymentVerticle);
-  }
-
-  @Autowired
-  private KafkaTemplate<String, String> kafkaTemplate;
+  public KafkaTemplate<String, String> kafkaTemplate;
 
 
-  @KafkaListener(topics = "audit", groupId = "")
-  public void auditDataListener(String data){
-    System.out.println("Receiving --->" + data);
-  }
+	@Bean
+	public AuditDataPublisher auditDataPublisher() {
+		return new AuditDataPublisher(kafkaTemplate, "audit");
+	}
+
+
+	@Bean
+	public NewTopic audit() {
+		return new NewTopic("audit", 1, (short) 1);
+	}
+
+
+//  @KafkaListener(topics = "audit", groupId = "auditDataGroup")
+//  public void auditDataListener(String data){
+//    System.out.println("Receiving --->" + data);
+//  }
 
 }

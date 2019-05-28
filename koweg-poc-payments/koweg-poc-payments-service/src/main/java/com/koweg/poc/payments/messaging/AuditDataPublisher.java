@@ -16,7 +16,8 @@ public class AuditDataPublisher implements  KafkaPublisher<String, String>{
 
   @Override
   public String publish(String request) {
-    ListenableFuture<SendResult<String, String>> result = template.send(topic, request);
+    template.setDefaultTopic(topic);
+    ListenableFuture<SendResult<String, String>> result = template.sendDefault("PAYMENT_AUDIT_DATA",request);
     return "SENT";
   }
 }

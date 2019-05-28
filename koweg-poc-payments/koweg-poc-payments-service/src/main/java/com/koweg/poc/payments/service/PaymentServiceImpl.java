@@ -6,6 +6,9 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.koweg.poc.payments.messaging.KafkaPublisher;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.joda.time.DateTime;
 
 import com.koweg.poc.payments.rest.representation.Payment;
@@ -23,10 +26,13 @@ public class PaymentServiceImpl implements PaymentService {
 
   private final RestTemplate restTemplate;
 
+  private final KafkaPublisher kafkaPublisher;
+
   private final String auditServiceName;
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-  public PaymentServiceImpl(RestTemplate restTemplate, String auditServiceName){
+  public PaymentServiceImpl(KafkaPublisher kafkaPublisher, RestTemplate restTemplate, String auditServiceName){
+    this.kafkaPublisher = kafkaPublisher;
     this.restTemplate = restTemplate;
     this.auditServiceName = auditServiceName;
   }
@@ -61,6 +67,8 @@ public class PaymentServiceImpl implements PaymentService {
     );
     HttpEntity<Audit> entity = new HttpEntity<Audit>(audit);
     restTemplate.exchange("http://"+ auditServiceName + "/audits", HttpMethod.POST,entity, Audit.class);
+
+    kafkaPublisher.publish(ToStringBuilder.reflectionToString(audit, ToStringStyle.DEFAULT_STYLE));
   }
 
 }
