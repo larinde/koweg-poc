@@ -67,6 +67,9 @@ metadata:
   name: zk
   namespace: koweg-kafka
 spec:
+  selector:
+    matchLabels:
+      app: zk
   serviceName: "zookeeper-svc"
   replicas: 1
   template:
@@ -91,7 +94,7 @@ spec:
       containers:
       - name: k8szk
         imagePullPolicy: Always
-        image: confluentinc/cp-zookeeper:latest
+        image: localhost:5000/cp-zookeeper:latest
         command:
         - "bash"
         - "-c"
