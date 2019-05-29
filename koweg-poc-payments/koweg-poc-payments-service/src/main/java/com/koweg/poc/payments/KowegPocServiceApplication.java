@@ -49,6 +49,20 @@ public class KowegPocServiceApplication {
 
   @Bean
   public PaymentService paymentService(){
+    return  new PaymentServiceImpl(restCallTemplate(), environment.getProperty("audit.service.name").toString());
+  }
+
+  @Bean
+  @LoadBalanced
+  public RestTemplate restCallTemplate(){
+    return new RestTemplate();
+  }
+
+  @Autowired
+  private PaymentVerticle paymentVerticle;
+
+  @Bean
+  public PaymentService paymentService(){
     return  new PaymentServiceImpl(auditDataPublisher(), restCallTemplate(), environment.getProperty("audit.service.name").toString());
   }
 

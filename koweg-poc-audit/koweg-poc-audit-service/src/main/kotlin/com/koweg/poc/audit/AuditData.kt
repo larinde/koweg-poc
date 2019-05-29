@@ -1,10 +1,9 @@
 package com.koweg.poc.audit
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder
+import org.apache.commons.lang.builder.ToStringStyle
 import java.time.LocalDateTime
 
-//data class that implements java equals && hashcode contracts
-data class AuditData (val id: String? = null, val messageId: String, val timeStamp: LocalDateTime, val auditContext: String, var additional: Any){
-	
-	override fun toString(): String = "id=$id messageId=$messageId timeStamp=$timeStamp auditContext=$auditContext"
-	
+data class AuditData (val id: String? = null, val auditContext: String, val date: LocalDateTime, val requestId: String, val correlationId: String ){
+    override fun toString(): String = ReflectionToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE)
 }
