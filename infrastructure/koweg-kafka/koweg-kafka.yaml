@@ -55,7 +55,7 @@ metadata:
   namespace: koweg-kafka
 data:
   advertised.listeners: PLAINTEXT://kafka-0.kafka-svc.koweg-kafka.svc.cluster.local:9093
-  connect: zk-0.zk-svc.koweg-kafka.svc.cluster.local:2182
+  connect: zk-0.zookeeper-svc.koweg-kafka.svc.cluster.local:2182
 
 ---
 

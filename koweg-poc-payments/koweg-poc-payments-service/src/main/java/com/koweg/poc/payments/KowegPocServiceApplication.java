@@ -15,8 +15,6 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 
-import com.koweg.poc.payments.rest.verticle.PaymentVerticle;
-import com.koweg.poc.payments.rest.verticle.VerticleConfig;
 
 import io.vertx.core.Vertx;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -49,28 +47,14 @@ public class KowegPocServiceApplication {
 
   @Bean
   public PaymentService paymentService(){
-    return  new PaymentServiceImpl(restCallTemplate(), environment.getProperty("audit.service.name").toString());
+      return  new PaymentServiceImpl(auditDataPublisher(), restCallTemplate(), environment.getProperty("audit.service.name").toString());
   }
-
   @Bean
   @LoadBalanced
   public RestTemplate restCallTemplate(){
     return new RestTemplate();
   }
 
-  @Autowired
-  private PaymentVerticle paymentVerticle;
-
-  @Bean
-  public PaymentService paymentService(){
-    return  new PaymentServiceImpl(auditDataPublisher(), restCallTemplate(), environment.getProperty("audit.service.name").toString());
-  }
-
-  @Bean
-  @LoadBalanced
-  public RestTemplate restCallTemplate(){
-    return new RestTemplate();
-  }
 
    // @Autowired
   //  private PaymentVerticle paymentVerticle;
