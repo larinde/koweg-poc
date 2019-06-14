@@ -1,11 +1,10 @@
 package com.koweg.poc.ingestion;
 
 import com.koweg.poc.ingestion.model.StockData;
-import org.junit.Assert;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,23 +18,30 @@ public class StockDataProviderTest {
 
   DataProvider provider = new StockDataProvider();
 
-  @Test
-  void shouldSuccessfullyLoadDataFromCsvFile() throws Exception {
-    final URL url = getClass().getClassLoader().getResource("testdata/AMAT_historical_stock_data.csv");
+  @BeforeEach
+  public  void init(){
 
+  }
 
-    final List<StockData> data = provider.loadData(url);
-    assertThat(data, is(notNullValue()));
-    assertThat(data.size(), is(equalTo(9865)));
-/*
-    System.out.println(url.toURI().toString());
-    System.out.println(data.size());
-*/
+  @AfterEach
+  public void clean(){
+
   }
 
   @Test
-  void shouldThrowExceptionForUnavailableDataSource() throws Exception {
-    final URL url = getClass().getClassLoader().getResource("falseTestDataPath/AMAT_historical_stock_data.csv");
+  @DisplayName("should successfully load and ingest a data source")
+  void shouldSuccessfullyLoadDataFromCsvFile() {
+    final URL url = getClass().getClassLoader().getResource("testdata/AMAT_historical_stock_data.csv");
+    final List<StockData> data = provider.loadData(url);
+    assertThat(data, is(notNullValue()));
+    assertThat(data.size(), is(equalTo(9865)));
+
+  }
+
+  @Test
+  @DisplayName("should throw exception when data source is unavailable")
+  void shouldThrowExceptionWhenDataSourceIsUnavailable() {
+    final URL url = getClass().getClassLoader().getResource("testdata/unavailable_AMAT_historical_stock_data.csv");
     Assertions.assertThrows(UnableToIngestDataException.class, () -> provider.loadData(url));
   }
 }

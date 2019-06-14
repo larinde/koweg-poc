@@ -33,6 +33,7 @@ public class StockData {
   @CsvCustomBindByPosition(position=6, converter = IntegerConverter.class)
   private Integer volume;
 
+/*
   public LocalDate getDate() {
     return date;
   }
@@ -54,6 +55,7 @@ public class StockData {
   public Integer getVolume() {
     return volume;
   }
+*/
 
 
 }
